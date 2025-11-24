@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DesempenhoCriterioDiretoJogoJogadorDTO {
 
-    private Long jogoJogadorId;
     private Long criterioId;
     private Integer ocorrencias;
     private Integer peso;

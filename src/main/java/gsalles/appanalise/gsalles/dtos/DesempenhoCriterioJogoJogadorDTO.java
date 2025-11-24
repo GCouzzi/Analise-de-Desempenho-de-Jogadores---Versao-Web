@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DesempenhoCriterioJogoJogadorDTO {
 
-    private Long jogoJogadorId;
     private Long criterioId;
     private Integer tentativas;
     private Integer acertos;

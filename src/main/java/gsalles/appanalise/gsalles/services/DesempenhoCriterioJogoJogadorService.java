@@ -8,6 +8,7 @@ import gsalles.appanalise.gsalles.repository.CriterioRepository;
 import gsalles.appanalise.gsalles.repository.DesempenhoCriterioJogoJogadorRepository;
 import gsalles.appanalise.gsalles.repository.JogoJogadorRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,38 +17,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DesempenhoCriterioJogoJogadorService {
 
-    @Autowired
-    private DesempenhoCriterioJogoJogadorRepository repository;
+    private final DesempenhoCriterioJogoJogadorRepository repository;
 
-    @Autowired
-    private JogoJogadorRepository jogoJogadorRepository;
+    private final JogoJogadorRepository jogoJogadorRepository;
 
-    @Autowired
-    private CriterioRepository criterioRepository;
-
-    public List<DesempenhoCriterioJogoJogadorDTO> findAll() {
-        return repository.findAll().stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public DesempenhoCriterioJogoJogadorDTO findById(Long id) {
-        return toDto(findEntityById(id));
-    }
-
-    @Transactional
-    public DesempenhoCriterioJogoJogadorDTO create(DesempenhoCriterioJogoJogadorDTO dto) {
-        DesempenhoCriterioJogoJogador entity = new DesempenhoCriterioJogoJogador();
-        return toDto(save(entity, dto));
-    }
-
-    @Transactional
-    public DesempenhoCriterioJogoJogadorDTO update(Long id, DesempenhoCriterioJogoJogadorDTO dto) {
-        DesempenhoCriterioJogoJogador entity = findEntityById(id);
-        return toDto(save(entity, dto));
-    }
+    private final CriterioRepository criterioRepository;
 
     @Transactional
     public void delete(Long id) {
@@ -71,18 +48,9 @@ public class DesempenhoCriterioJogoJogadorService {
         return repository.save(entity);
     }
 
-    private DesempenhoCriterioJogoJogador findEntityById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Desempenho não encontrado com ID: " + id));
+    @Transactional(readOnly = true)
+    private List<DesempenhoCriterioJogoJogador> findByJogoJogadorId(Long id) {
+        return repository.findByJogoJogadorId(id);
     }
 
-    private DesempenhoCriterioJogoJogadorDTO toDto(DesempenhoCriterioJogoJogador entity) {
-        DesempenhoCriterioJogoJogadorDTO dto = new DesempenhoCriterioJogoJogadorDTO();
-        dto.setCriterioId(entity.getCriterio().getId());
-        dto.setJogoJogadorId(entity.getJogoJogador().getId());
-        dto.setTentativas(entity.getNumeroTentativas());
-        dto.setAcertos(entity.getNumeroAcertos());
-        dto.setPeso(entity.getPeso());
-        return dto;
-    }
 }

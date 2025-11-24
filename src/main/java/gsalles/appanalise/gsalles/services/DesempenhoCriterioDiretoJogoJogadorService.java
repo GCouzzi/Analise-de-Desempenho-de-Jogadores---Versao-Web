@@ -7,6 +7,7 @@ import gsalles.appanalise.gsalles.entities.DesempenhoCriterioDiretoJogoJogador;
 import gsalles.appanalise.gsalles.entities.JogoJogador;
 import gsalles.appanalise.gsalles.repository.DesempenhoCriterioDiretoJogoJogadorRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,21 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DesempenhoCriterioDiretoJogoJogadorService {
 
-    @Autowired
-    private DesempenhoCriterioDiretoJogoJogadorRepository repository;
+    private final DesempenhoCriterioDiretoJogoJogadorRepository repository;
 
-    @Autowired
-    private JogoJogadorService jogoJogadorService;
+    private final JogoJogadorService jogoJogadorService;
 
-    @Autowired
-    private CriterioService criterioService;
+    private final CriterioService criterioService;
 
     @Transactional(readOnly = true)
     public List<DesempenhoCriterioDiretoJogoJogador> findByJogoJogadorId(Long id) {
         return repository.findByJogoJogadorId(id);
     }
+
     @Transactional
     private DesempenhoCriterioDiretoJogoJogador create(
             DesempenhoCriterioDiretoJogoJogadorDTO dto) {

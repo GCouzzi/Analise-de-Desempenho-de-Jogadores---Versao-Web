@@ -6,6 +6,7 @@ import gsalles.appanalise.gsalles.dtos.JogoJogadorDTO;
 import gsalles.appanalise.gsalles.entities.*;
 import gsalles.appanalise.gsalles.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,21 +15,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class JogoJogadorService {
-    @Autowired
-    private JogoJogadorRepository jogoJogadorRepository;
-    
-    @Autowired
-    private JogoRepository jogoRepository;
-    
-    @Autowired
-    private JogadorRepository jogadorRepository;
-    
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private CriterioRepository criterioRepository;
+    private final JogoJogadorRepository jogoJogadorRepository;
+
+    private final JogoRepository jogoRepository;
+
+    private final JogadorRepository jogadorRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final CriterioRepository criterioRepository;
 
     public List<JogoJogador> findAll() {
         return jogoJogadorRepository.findAll();
